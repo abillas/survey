@@ -1,0 +1,11 @@
+.recharts-default-legend {
+  display: flex;
+  justify-content: center;
+  padding-left: 2rem !important;
+}
+
+.chartWrapper {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
