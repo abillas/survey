@@ -8,7 +8,6 @@ const Survey = (props: any) => {
 
   useEffect(() => {
     fetchData();
-    return () => {};
   }, [props.selectedSurvey]);
 
   const fetchData = () => {

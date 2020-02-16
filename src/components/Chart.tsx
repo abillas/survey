@@ -1,5 +1,6 @@
 import React from "react";
 import "./Chart.css";
+
 import {
   BarChart,
   Bar,
@@ -13,19 +14,19 @@ import {
 const Chart = (props: any) => {
   let chartData;
   let map: any = {};
-  let color: [];
+  let colorList: any = ["#3C403C", "#14930E", "#5FF7FE", "#FF5733", "#FFBE33"];
 
   if (props.data && props.data.hasOwnProperty("questions")) {
     chartData = props.data.questions.map((char: any, index: number) => {
       return {
         name: char.questionTitle,
         color: char.colors,
-        ...char.answerOptions.reduce((acc: any, cur: any) => {
+        ...char.answerOptions.reduce((acc: any, cur: any, j: any) => {
           if (index === 0) {
             // we dont want the unnecessarily executions/re-renders
             map = {
               ...map,
-              [cur.answerOption]: cur.text
+              [cur.answerOption]: { text: cur.text, color: colorList[j] }
             };
           }
           acc = {
@@ -34,7 +35,6 @@ const Chart = (props: any) => {
           };
           return acc;
         }, {})
-        // color: char.colors
       };
     });
   }
@@ -44,24 +44,22 @@ const Chart = (props: any) => {
     <>
       {props.data && props.data.hasOwnProperty("questions") ? (
         <div className="chartWrapper">
-          <BarChart
-            width={800}
-            height={400}
-            data={chartData}
-            // margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-          >
+          <BarChart width={900} height={450} data={chartData}>
             <CartesianGrid strokeDasharray="5 5" />
             <XAxis dataKey="name" tick={false} />
             <YAxis />
-            <Tooltip />
+            <Tooltip
+              labelStyle={{ fontWeight: 700 }}
+              itemStyle={{ color: "black" }}
+            />
             <Legend />
             {Object.keys(map).map((element: any) => {
               return (
                 <Bar
                   dataKey={element}
                   key={element}
-                  fill={element}
-                  name={map[element]}
+                  fill={map[element].color}
+                  name={map[element].text}
                 />
               );
             })}
